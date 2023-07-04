@@ -19,14 +19,15 @@ const List = () => {
                 </thead>
                 <tbody>
                     {
-                        aar.map((ele, index) => {
-                            return (
-                                <tr key={ index }>
-                                    <td>{ ele.name }</td>
-                                    <td>{ ele.email }</td>
-                                </tr>
-                            )
-                        })
+                        aar.map(
+                            (ele, index) => {
+                                return (
+                                    <tr key={ index }>
+                                        <td>{ ele.name }</td>
+                                        <td>{ ele.email }</td>
+                                    </tr>
+                                )
+                            })
                     }
                 </tbody>
             </table>

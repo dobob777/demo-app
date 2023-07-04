@@ -1,10 +1,11 @@
 import React from 'react'
 
-const Add = () => {
+const Add = (props) => {
+
     return (
         <>
             <div>
-                <form>
+                <form onSubmit={ props.submitData }>
                     <label
                         className='mt-3'
                         htmlFor="name">
