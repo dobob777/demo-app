@@ -4,10 +4,24 @@ import List from './Compo/List'
 
 const App = () => {
   const [allData, setAllData] = useState([]);
+
+
+  const submitData = (event) => {
+    event.preventDefault()
+
+
+    const obj = {
+      name: event.target.name.value,
+      email: event.target.email.value
+    }
+    setAllData([...allData, obj])
+    console.log('obj::: ', obj);
+
+  }
   return (
     <>
-      <Add />
-      <List />
+      <Add submitData={ submitData } />
+      <List allData={ allData } />
     </>
   )
 }
