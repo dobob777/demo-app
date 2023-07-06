@@ -1,7 +1,7 @@
 import React from 'react'
 
 const List = (props) => {
-    console.log('props.allData::: ', props.allData);
+
     return (
         <div>
             <table>
@@ -22,7 +22,7 @@ const List = (props) => {
                                         <td>{ index + 1 }</td>
                                         <td>{ ele.name }</td>
                                         <td>{ ele.email }</td>
-                                        <td><button>Delete</button></td>
+                                        <td><button onClick={ () => props.deleteData(index) }>Delete</button></td>
                                     </tr>
                                 )
                             })

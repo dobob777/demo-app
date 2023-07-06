@@ -9,19 +9,28 @@ const App = () => {
   const submitData = (event) => {
     event.preventDefault()
 
-
     const obj = {
       name: event.target.name.value,
       email: event.target.email.value
     }
     setAllData([...allData, obj])
-    console.log('obj::: ', obj);
+  }
 
+  const deleteData = (id) => {
+    const newData = allData.filter((ele, index) => {
+      return index != id
+    })
+    setAllData(newData)
   }
   return (
     <>
-      <Add submitData={ submitData } />
-      <List allData={ allData } />
+      <center>
+        <Add submitData={ submitData } />
+        <List
+          allData={ allData }
+          deleteData={ deleteData }
+        />
+      </center>
     </>
   )
 }
