@@ -1,95 +1,122 @@
+// https://jsonplaceholder.typicode.com/comments
+import { isDisabled } from '@testing-library/user-event/dist/utils'
+import React from 'react'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
-import React, { useEffect, useState } from 'react'
-// UseEffect
+const App = () => {
+  const [allData, setAllData] = useState([])
+  const [totalPage, setTotalPage] = useState(1)
+  const [sIndex, setSIndex] = useState(0);
+  const [lIndex, setLIndex] = useState(25)
+  const [cPage, setCPage] = useState(1)
 
-// Type useEffect
-
-// 1. Every time call
-// 2. One time call-----------
-// 3. Specific call
-
-
-
-function App() {
-
-  const [email, setEmail] = useState('');
-  // console.log('email::: ', email);
-  const [password, setPassword] = useState('');
-  // console.log('password::: ', password);
-
-
-  // 2. One time call-----------
-  // useEffect(() => {
-  //   setEmail('abcd@xyz.com')
-  //   setPassword('12345678')
-  // }, [])
-
-  // 1. Every time call
-  // useEffect(() => {
-  //   console.log('i am called...');
-  // })
-
-  // 3. Specific call
   useEffect(() => {
-    // console.log('email called....');
-    setPassword(email)
-  }, [email])
+    async function clickToSave() {
+      fetch('https://jsonplaceholder.typicode.com/comments')
+        .then(res => res.json())
+        .then((data) => {
+          // console.log(data);
+          setAllData(data)
+          setTotalPage(data.length / 25)
 
+        })
+    }
+    clickToSave()
+  }, [])
 
-  const emailCh = (e) => {
-    setEmail(e.target.value)
-    // setPassword(email)
+  const cNext = () => {
+
+    if (totalPage > cPage) {
+      setCPage(cPage + 1)
+      const id = cPage + 1;
+      const lastPageNo = 25 * id;
+      const fPageNo = lastPageNo - 25;
+      setSIndex(fPageNo)
+      setLIndex(lastPageNo)
+    }
   }
 
-  const passCh = (e) => {
-    setPassword(e.target.value)
-  }
+  const pClick = () => {
 
+    if (1 < cPage) {
+      setCPage(cPage - 1)
+      const id = cPage - 1;
+      const lastPageNo = 25 * id;
+      const fPageNo = lastPageNo - 25;
+      setSIndex(fPageNo)
+      setLIndex(lastPageNo)
+    }
+  }
+  const ashish = (id) => {
+    setCPage(id)
+
+
+    const lastPageNo = 25 * id;
+    const fPageNo = lastPageNo - 25;
+    setSIndex(fPageNo)
+    setLIndex(lastPageNo)
+  }
   return (
-    <div style={ { width: "500px" } }>
-      <main className="form-signin w-100 m-auto">
-        <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
-
-        <div className="form-floating">
-          <input
-            onChange={ emailCh }
-            value={ email }
-            type="email"
-            className="form-control"
-            id="floatingInput"
-            placeholder="name@example.com" />
-          <label htmlFor="floatingInput">Email address</label>
-        </div>
-        <div className="form-floating">
-          <input
-            onChange={ passCh }
-            value={ password }
-            type="text"
-            className="form-control"
-            id="floatingPassword"
-            placeholder="Password" />
-          <label htmlFor="floatingPassword">Password</label>
-        </div>
-        <button className="btn btn-primary w-100 py-2" type="submit">Sign in</button>
-        <p className="mt-5 mb-3 text-body-secondary">© 2017–2023</p>
-      </main>
-    </div>
+    <>
+      <div>
+        <nav aria-label="Page navigation example">
+          <ul className="pagination">
+            <li className="page-item" ><a className={ 1 < cPage ? "page-link" : "page-link disabled " } onClick={ pClick } href="#" >Previous</a></li>
+            {
+              Array.from({ length: totalPage }).map((ele, index) => {
+                return (
+                  <li key={ index } className={ cPage == index + 1 ? "page-item active" : "page-item" }><a onClick={ () => ashish(index + 1) } className="page-link" href="#">{ index + 1 }</a></li>
+                )
+              })
+            }
+            <li className="page-item"><a className={ totalPage > cPage ? " page-link " : "page-link disabled" } onClick={ cNext } href="#">Next</a></li>
+          </ul>
+        </nav>
+        <table className='table'>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Password</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              allData.slice(sIndex, lIndex).map((ele, index) => {
+                return (
+                  <tr key={ index }>
+                    <td>{ ele.id }</td>
+                    <td>{ ele.name }</td>
+                    <td>{ ele.email }</td>
+                    <td>{ ele.body }</td>
+                  </tr>
+                )
+              })
+            }
+          </tbody>
+        </table>
+      </div>
+    </>
   )
 }
 
 export default App
 
-// useEffect(() => {
-//   const fData = async () => {
-//       fetch("https://jsonplaceholder.typicode.com/comments", {
-//           method: "GET",
-//       })
-//           .then((res) => res.json())
-//           .then((data) => {
-//               console.log('data::: ', data);
-//           }).catch((errr) => {
-//               console.log('errr::: ', errr);
-//           })
-//   }
-//   fData();
-// }, [])
+
+
+// import React from 'react'
+// import ashish from './Hello'
+
+// const App = () => {
+//   const data = ashish('https://jsonplaceholder.typicode.com/comments');
+//   // console.log('data::: ', data);
+//   return (
+//     <div>
+//       app
+//     </div>
+//   )
+// }
+
+// export default App
