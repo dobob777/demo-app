@@ -1,120 +1,102 @@
-// https://jsonplaceholder.typicode.com/comments
-import { isDisabled } from '@testing-library/user-event/dist/utils'
 import React from 'react'
-import { useState } from 'react'
 import { useEffect } from 'react'
+import { useState } from 'react'
 
 const App = () => {
-  const [allData, setAllData] = useState([])
-  const [totalPage, setTotalPage] = useState(1)
-  const [sIndex, setSIndex] = useState(0);
-  const [lIndex, setLIndex] = useState(25)
-  const [cPage, setCPage] = useState(1)
+  const [alldata, setAlldata] = useState([])
+  const [nxtdata, setNxtdata] = useState([1])
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
-    async function clickToSave() {
-      fetch('https://jsonplaceholder.typicode.com/comments')
-        .then(res => res.json())
-        .then((data) => {
-          // console.log(data);
-          setAllData(data)
-          setTotalPage(data.length / 25)
-
-        })
-    }
-    clickToSave()
+    setCount(0)
   }, [])
 
-  const cNext = () => {
+  const clickToNxt = () => {
+    setAlldata(data)
+    console.log(data);
 
-    if (totalPage > cPage) {
-      setCPage(cPage + 1)
-      const id = cPage + 1;
-      const lastPageNo = 25 * id;
-      const fPageNo = lastPageNo - 25;
-      setSIndex(fPageNo)
-      setLIndex(lastPageNo)
+    setCount(count + 1)
+    console.log(setAlldata[count]);
+
+    if (count > 1) {
+      setNxtdata(data)
     }
   }
 
-  const pClick = () => {
-
-    if (1 < cPage) {
-      setCPage(cPage - 1)
-      const id = cPage - 1;
-      const lastPageNo = 25 * id;
-      const fPageNo = lastPageNo - 25;
-      setSIndex(fPageNo)
-      setLIndex(lastPageNo)
+  const data = [
+    {
+      title: "quidem molestiae enim",
+      content: " quidem molestiae enim quidem molestiae enim quidem molestiae enim"
+    },
+    {
+      title: "sunt qui excepturi placeat culpa",
+      content: "omnis laborum odioomnis laborum odioomnis laborum odioomnis laborum odioomnis laborum odioomnis laborum odio"
+    },
+    {
+      title: "omnis laborum odio",
+      content: "sunt qui excepturi placeat culpasunt qui excepturi placeat culpasunt qui excepturi placeat culpa"
+    },
+    {
+      title: "eaque aut omnis a",
+      content: "eaque aut omnis aeaque aut omnis aeaque aut omnis aeaque aut omnis aeaque aut omnis aeaque aut omnis aeaque aut omnis aeaque aut omnis a"
+    },
+    {
+      title: "qui fuga est a eum",
+      content: "qui fuga est a eumqui fuga est a eumqui fuga est a eumqui fuga est a eumqui fuga est a eum"
+    },
+    {
+      title: "distinctio laborum qui",
+      content: "distinctio laborum quidistinctio laborum quidistinctio laborum quidistinctio laborum qui"
+    },
+    {
+      title: "consequatur autem doloribus natus consectetur",
+      content: "consequatur autem doloribus natus consecteturconsequatur autem doloribus natus consecteturconsequatur autem doloribus natus consecteturconsequatur autem doloribus natus consectetur"
+    },
+    {
+      title: "nesciunt quia et doloremque",
+      content: "nesciunt quia et doloremquenesciunt quia et doloremquenesciunt quia et doloremquenesciunt quia et doloremquenesciunt quia et doloremque"
     }
-  }
-  const ashish = (id) => {
-    setCPage(id)
+  ];
 
 
-    const lastPageNo = 25 * id;
-    const fPageNo = lastPageNo - 25;
-    setSIndex(fPageNo)
-    setLIndex(lastPageNo)
-  }
   return (
-    <>
-      <div>
-        <nav aria-label="Page navigation example">
-          <ul className="pagination">
-            <li className="page-item" ><a className={ 1 < cPage ? "page-link" : "page-link disabled " } onClick={ pClick } href="#" >Previous</a></li>
-            {
-              Array.from({ length: totalPage }).map((ele, index) => {
-                return (
-                  <li key={ index } className={ cPage == index + 1 ? "page-item active" : "page-item" }><a onClick={ () => ashish(index + 1) } className="page-link" href="#">{ index + 1 }</a></li>
-                )
-              })
-            }
-            <li className="page-item"><a className={ totalPage > cPage ? " page-link " : "page-link disabled" } onClick={ cNext } href="#">Next</a></li>
-          </ul>
-        </nav>
-        <table className='table'>
-          <thead>
-            <tr>
-              <th>No</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Password</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              allData.slice(sIndex, lIndex).map((ele, index) => {
-                return (
-                  <tr key={ index }>
-                    <td>{ ele.id }</td>
-                    <td>{ ele.name }</td>
-                    <td>{ ele.email }</td>
-                    <td>{ ele.body }</td>
-                  </tr>
-                )
-              })
-            }
-          </tbody>
-        </table>
+    <div className='container'>
+      <div className="card">
+        <div className="card-header">
+          <div className='d-flex justify-content-around'>
+            <button type="button" className="btn btn-secondary">Reset</button>
+            <button type="button" className="btn btn-primary">Prev</button>
+            <button onClick={ clickToNxt }
+              type="button"
+              className="btn btn-success">
+              Next
+            </button>
+          </div>
+        </div>
+        <div className="card-body">
+          <h5 className="card-title">{ data[0].title }</h5>
+          <p className="card-text">{ data[0].content }</p>
+
+
+
+        </div>
       </div>
-    </>
+    </div>
   )
 }
 
 export default App
-
-
-
-// import React from 'react'
-// import ashish from './Hello'
+// import React, { useState } from 'react'
+// import Btn from './com/Btn'
 
 // const App = () => {
-//   const data = ashish('https://jsonplaceholder.typicode.com/comments');
-//   // console.log('data::: ', data);
+//   const [dataa, setDataa] = useState(false)
+//   const clickTo = () => {
+//     setDataa(!dataa);
+//   }
 //   return (
 //     <div>
-//       app
+//       <Btn clickTo={ clickTo } dataa={ dataa } />
 //     </div>
 //   )
 // }
